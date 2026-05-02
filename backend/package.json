@@ -1,0 +1,37 @@
+{
+  "name": "nexusmeet-backend",
+  "version": "1.0.0",
+  "description": "NexusMeet backend — Express, Socket.io, MongoDB",
+  "author": "Aradhya Stuti",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js",
+    "test": "NODE_ENV=test RATE_LIMIT_MAX=500 node --test --test-force-exit tests/auth.test.js tests/controller.test.js tests/room.test.js tests/socket.test.js tests/api.integration.test.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
+    "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.3.1",
+    "helmet": "^8.1.0",
+    "http-status": "^1.7.3",
+    "jsonwebtoken": "^9.0.3",
+    "mediasoup": "^3.19.18",
+    "mongoose": "^8.0.3",
+    "redis": "^4.7.1",
+    "socket.io": "^4.7.3",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.0.1",
+    "nodemon": "^3.0.2",
+    "socket.io-client": "^4.8.3",
+    "supertest": "^7.2.2"
+  }
+}
