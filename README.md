@@ -1,16 +1,13 @@
 
 # NexusMeet
 
-NexusMeet is a self-hosted meeting app I built while trying to understand how real-time communication systems actually work — not just using WebRTC, but dealing with signalling, media routing, and basic room logic.
+Built this to wrap my head around WebRTC, mediasoup SFU routing, and how to do AES-GCM end-to-end chat in the browser. The chat key lives in the URL hash so the server only ever sees ciphertext.
 
-It started as a simple peer-to-peer setup, but I later added a mediasoup-based SFU so it doesn’t fall apart once more people join. Chat is handled in the browser and encrypted with AES-GCM, with the key passed through the URL hash so the server never sees it.
+It started as a simple peer-to-peer setup, but I later added a mediasoup-based SFU so it scales past a few participants. There's a waiting room, screen share, and a P2P fallback when the SFU isn't up.
 
 ## Stack
 
-* **Frontend:** React 18, WebRTC, socket.io-client, Web Crypto, MUI
-* **Backend:** Node + Express, socket.io, mediasoup, MongoDB
-* **Optional:** Redis (for shared state if running multiple instances)
-* **Tests:** Node test runner (backend), Jest + RTL (frontend), Playwright (e2e)
+Frontend is React 18 with socket.io-client, Web Crypto for encryption, and MUI for the UI bits. Backend is Node + Express with socket.io and mediasoup, talking to MongoDB. Redis is optional — only needed if you're running more than one backend instance and want them to share state. Tests use the built-in Node test runner on the backend, Jest + RTL on the frontend, and Playwright for the browser-level e2e.
 
 ## Project structure
 
@@ -22,7 +19,7 @@ e2e/       Playwright smoke tests
 
 ## Running locally
 
-You’ll need MongoDB running and a `.env` file in `backend/` based on the example. Redis is optional — if it’s not there, the app just keeps state in memory.
+Make sure MongoDB is running, then copy `backend/.env.example` to `backend/.env` and fill in the connection string. Redis is optional; without it the server just keeps room state in memory.
 
 ```bash
 cd backend  && npm install && npm run dev
@@ -64,5 +61,4 @@ npm run test:e2e   # requires both backend and frontend running
 
 ## Deployment
 
-There’s a `render.yaml` for quick deployment on Render (backend + static frontend + Mongo).
-The backend Dockerfile is in `backend/` and is what gets built during deploy.
+There's a `render.yaml` in here so Render can spin up the whole thing — backend service, static frontend, and a Mongo instance — from one Blueprint deploy. The backend builds from `backend/Dockerfile`.
